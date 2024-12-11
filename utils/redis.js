@@ -5,12 +5,16 @@ class RedisClient {
   constructor() {
     this.client = createClient();
     this.client.on('error', (error) => {
-      console.log(error.message);
+      console.error(error.message);
+    });
+
+    this.client.connect().catch((error) => {
+      console.error(error.message);
     });
   }
 
   isAlive() {
-    return this.client.connected;
+    return this.client.isOpen;
   }
 
   async get(key) {
